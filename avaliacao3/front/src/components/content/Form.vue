@@ -1,20 +1,38 @@
 <template>
   <div id="formCambridge">
     <h3 class="mt-20">
-      Cursos Intensivos <br>
-      Inscreva-se!
+      Cadastre sua empresa <br>
+      Cadastre-já!
     </h3>
 
     <p class="my-10">
-      Inglês | Alemão | Francês <br>
-      Português para Estrangeiros
+      Test <br>
+      Form Empresa
     </p>
 
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="p-4">
 
       <b-form-group
         id="input-group-nome"
-        label="Nome: *"
+        label="CNPJ: *"
+        label-for="input-cnpj"
+        description="Caso seu CNPJ exista iremos preencher os dados automáticamente"
+      >
+
+        <b-form-input
+          id="input-cnpj"
+          v-model="form.cnpj"
+          type="text"
+          required
+          placeholder="Insira o CNPJ"
+          v-mask="'##.###.###/####-##'"
+        ></b-form-input>
+
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-nome"
+        label="Nome Empresa: *"
         label-for="input-nome"
         description=""
       >
@@ -24,14 +42,14 @@
           v-model="form.nome"
           type="text"
           required
-          placeholder="Insira o nome"
+          placeholder="Insira o nome da empresa"
         ></b-form-input>
 
       </b-form-group>
 
       <b-form-group
         id="input-group-email"
-        label="E-mail:"
+        label="E-mail Comercial:"
         label-for="input-email"
         description="Nós nunca vamos compartilhar seu e-mail."
       >
@@ -41,7 +59,8 @@
           v-model="form.email"
           type="email"
           required
-          placeholder="Insira seu e-mail"
+          placeholder="Insira o e-mail comercial"
+          @blur="validateEmail"
         ></b-form-input>
 
       </b-form-group>
@@ -56,10 +75,15 @@
 </template>
 
 <script>
+
+  import {mask} from 'vue-the-mask'
+
   export default {
     data() {
       return {
+        valid: false,
         form: {
+          cnpj: '',
           nome: '',
           email: ''
         },
@@ -74,6 +98,7 @@
       onReset(evt) {
         evt.preventDefault()
         // Redefina nossos valores de formulário
+        this.form.cnpj = ""
         this.form.nome = ""
         this.form.email = ""
         // Truque para redefinir / limpar o estado de validação do formulário do navegador nativo
@@ -81,8 +106,20 @@
         this.$nextTick(() => {
           this.show = true
         })
+      },
+      validateEmail() {
+
+        let emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
+
+        if (emailRegex.test(this.form.cnpj)) {
+          this.valid = true;
+        } else {
+          this.valid = false;
+        }
+
       }
-    }
+    },
+    directives: {mask}
   }
 </script>
 
