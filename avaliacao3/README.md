@@ -123,11 +123,7 @@ npm run dev
 
 3. Caso queira iniciar um servidor execute os comandos a seguir:
 
-```bash
-php artisan serve
-```
 
-	- navegue até a URL: http://127.0.0.1:8000
 
 ---
 
@@ -137,18 +133,6 @@ php artisan serve
 ```bash
 php artisan migrate:fresh --seed
 ```
-
-5. Populando Tabelas: 
-
-Faça login com os seguinte usuário: 
-Login: sergio.b.snp@gmail.com
-Senha: @Sbr99611661
-
-Após logar:
-
-Execute a rota ```admin/marcas/populate``` - para popular marcas de veiculos com base na tabela Fipe
-
-Execute a rota ```admin/modelos/populate``` - para popular modelos de veiculos com base na tabela Fipe
 
 ### Componentes
 
