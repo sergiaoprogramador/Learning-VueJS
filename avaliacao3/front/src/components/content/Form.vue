@@ -168,6 +168,138 @@
       </b-form-group>
       <!-- end: e-mail -->
 
+      <!-- begin: Complemento -->
+      <b-form-group
+        id="input-group-complemento"
+        label="Complemento: "
+        label-for="input-complemento"
+        description=""
+      >
+
+        <b-form-input
+          id="input-complemento"
+          v-model="form.complemento"
+          type="text"
+          placeholder="Insira o complemento"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Complemento -->
+
+      <!-- begin: Bairro -->
+      <b-form-group
+        id="input-group-bairro"
+        label="Bairro: *"
+        label-for="input-bairro"
+        description=""
+      >
+
+        <b-form-input
+          id="input-bairro"
+          v-model="form.bairro"
+          type="text"
+          required
+          placeholder="Insira o bairro"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Bairro -->
+
+      <!-- begin: Cidade -->
+      <b-form-group
+        id="input-group-cidade"
+        label="Cidade: *"
+        label-for="input-cidade"
+        description=""
+      >
+
+        <b-form-input
+          id="input-cidade"
+          v-model="form.cidade"
+          type="text"
+          required
+          placeholder="Insira a Cidade"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Cidade -->
+
+      <!-- begin: Estado -->
+      <b-form-group
+        id="input-group-estado"
+        label="Estado: *"
+        label-for="input-estado"
+        description=""
+      >
+
+        <b-form-input
+          id="input-estado"
+          v-model="form.estado"
+          type="text"
+          required
+          placeholder="Insira o estado"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Estado -->
+
+      <!-- begin: Segmento -->
+      <b-form-group
+        id="input-group-segmento"
+        label="Segmentos: *"
+        label-for="input-segmento"
+        description=""
+      >
+
+        <b-form-input
+          id="input-segmento"
+          v-model="form.segmento"
+          type="text"
+          required
+          placeholder="Selecione o Segmento"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Segmento -->
+
+      <!-- begin: Inscrição Municipal -->
+      <b-form-group
+        id="input-group-inscricaoMunicipal"
+        label="Inscrição Municipal: *"
+        label-for="input-inscricaoMunicipal"
+        description=""
+      >
+
+        <b-form-input
+          id="input-inscricaoMunicipal"
+          v-model="form.inscricaoMunicipal"
+          type="text"
+          required
+          placeholder="Digite a Inscrição Municipal"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Inscrição Municipal -->
+
+      <!-- begin: Inscrição Estadual -->
+      <b-form-group
+        id="input-group-inscricaoEstadual"
+        label="Inscrição Estadual: *"
+        label-for="input-inscricaoEstadual"
+        description=""
+      >
+
+        <b-form-input
+          id="input-inscricaoEstadual"
+          v-model="form.inscricaoEstadual"
+          type="text"
+          required
+          placeholder="Digite a Inscrição Estadual"
+        ></b-form-input>
+
+      </b-form-group>
+      <!-- end: Inscrição Estadual -->
+
     </b-form>
 
     <b-card class="mt-3" header="Form Data Result">

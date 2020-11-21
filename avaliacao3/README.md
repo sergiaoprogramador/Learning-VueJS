@@ -135,11 +135,11 @@ php artisan migrate:fresh --seed
 ```
 
 ### Componentes
+Para os componentes utilizei o BootstrapVue
 
-Para adicionar novos componentes HTML basta acessar o site do template, selecionar o item que quer e copiar seu código
+Para adicionar novos componentes VUE basta acessar o site do bootstrap, selecionar o item que quer e copiar seu código
 
-
-Link : https://preview.keenthemes.com/metronic/demo1/index.html
+Link : [Documentação do BoostrapVue](https://bootstrap-vue.org/)
 
 ### Copyright
 
