@@ -7,7 +7,7 @@
           <Banner />
         </b-col>
         <b-col cols="6">
-          
+          <Form />
         </b-col>
       </b-row>
     </b-container>
@@ -16,16 +16,18 @@
 </template>
 
 <script>
-import Header from "./components/static/Header";
-import Footer from "./components/static/Footer";
-import Banner from "./components/content/Banner";
+import Header from "./components/static/Header"
+import Footer from "./components/static/Footer"
+import Banner from "./components/content/Banner"
+import Form from "./components/content/Form"
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    Banner
+    Banner,
+    Form
   }
 };
 </script>
