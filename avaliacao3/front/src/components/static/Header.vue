@@ -4,12 +4,12 @@
     <b-row class="">
       <b-col cols="4" class="logo-unemat d-flex align-item-center pl-5">
         <a href="http://sinop.unemat.br/si/"></a>
-        <img class="my-auto" src="https://lh3.googleusercontent.com/proxy/05pzO1ZAG7SEh0BYSJsmk9SDkFdATBGu3VGDqc4pt-VKGSGy0nfCWXU1-dXLXYFDvuepaFQ7yJvGkfDLyfhnsXTMUkxYI6IhaGsV8fDyeFroJ8Jg5YOU9oOn" title="Grupo Your" alt="Grupo Your">
+        <img class="my-auto" src="../../assets/si-sinop.gif" title="Sistemas de Informação Sinop" alt="Sistemas de Informação Sinop">
       </b-col>
 
       <b-col cols="4" class="img-sergiao d-flex align-item-center">
         <a  href="/" class="custom-logo-link m-auto" rel="home" aria-current="page">
-          <img src="https://sergiaoprogramador.github.io/assets/img/Sergio%20Ramos.png" class="custom-logo" alt="Empreenda com Your Business City">
+          <img src="../../assets/img/Sergio Ramos.png" class="custom-logo" alt="Empreenda com Your Business City">
         </a>
       </b-col>
 
