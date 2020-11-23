@@ -32,13 +32,13 @@ export default {
   },
   methods: {
     getCompanies(){
-      axios.get('http://127.0.0.1:8000/api/companies')
+      axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/37463944000105')
       .then(response=>{
-        console.log(response.data.companies)
-        this.companies = response.data.companies
+        console.log(response.data.company)
+        // this.companies = response.data.companies
       })
       .catch(error=>{
-        console.log(error.response.data.message)
+        console.log(error)
       })
     }
   }

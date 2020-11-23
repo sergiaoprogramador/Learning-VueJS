@@ -10,7 +10,12 @@
       Form Empresa
     </p>
 
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="p-4" novalidate="true">
+    <b-form @submit.prevent="submit" @reset="onReset" v-if="show"  action="" method="post" class="p-4">
+
+      <!-- valid-feedback = "CNPJ válido!"
+        invalid-feedback = "Digite o CNPJ"
+        :state="validCNPJ" -->
+        <!-- :state="validCNPJ" -->
 
       <!-- begin: CNPJ -->
       <b-form-group
@@ -18,19 +23,23 @@
         label="CNPJ: *"
         label-for="input-cnpj"
         description="Caso seu CNPJ exista iremos preencher os dados automáticamente"
-        valid-feedback = "CNPJ válido!"
-        invalid-feedback = "Digite o CNPJ"
-        :state="validCNPJ"
+        :class="{ 'form-group--error': $v.form.cnpj.$error, 'form-group--loading': $v.form.cnpj.$pending }"
       >
 
         <b-form-input
           id="input-cnpj"
-          v-model="form.cnpj"
-          :state="validCNPJ"
+          v-model.trim="$v.form.cnpj.$model"
+          :class="{ 'form-control is-invalid': $v.form.cnpj.$error }"
           v-mask="'##.###.###/####-##'"
-          trim
           placeholder="Insira o CNPJ"
         ></b-form-input>
+
+        <div class="error" v-if="!$v.form.cnpj.required" :class="{ 'invalid-feedback d-block': !$v.form.cnpj.required }">CNPJ é Obrigatório.</div>
+
+        <div class="error" v-if="!$v.form.cnpj.minLength" :class="{ 'invalid-feedback d-block': !$v.form.cnpj.minLength }">O CNPJ deve ter pelo menos {{$v.form.cnpj.$params.minLength.min}} caracteres.</div>
+
+        <div class="error" v-if="!$v.form.cnpj.fetchCNPJ" :class="{ 'invalid-feedback d-block': !$v.form.cnpj.fetchCNPJ }">Este CNPJ não existe.</div>
+
 
       </b-form-group>
       <!-- end: CNPJ -->
@@ -41,15 +50,18 @@
         label="Razão Social: *"
         label-for="input-razaoSocial"
         description=""
+        :class="{ 'form-group--error': $v.form.razaoSocial.$error }"
       >
 
         <b-form-input
           id="input-razaoSocial"
-          v-model="form.razaoSocial"
           type="text"
-          
+          v-model.trim="$v.form.razaoSocial.$model"
+          :class="{ 'form-control is-invalid': $v.form.razaoSocial.$error }"
           placeholder="Insira a Razão Social"
         ></b-form-input>
+
+        <div class="error" v-if="!$v.form.razaoSocial.required" :class="{ 'invalid-feedback d-block': !$v.form.razaoSocial.required }">Razão Social é Obrigatório</div>
 
       </b-form-group>
       <!-- end: Razão Social -->
@@ -57,7 +69,7 @@
       <!-- begin: Nome fantasia -->
       <b-form-group
         id="input-group-nomeFantasia"
-        label="Nome Fantasia: *"
+        label="Nome Fantasia:"
         label-for="input-nomeFantasia"
         description=""
       >
@@ -66,7 +78,6 @@
           id="input-nomeFantasia"
           v-model="form.nomeFantasia"
           type="text"
-          
           placeholder="Insira o Nome Fantasia"
         ></b-form-input>
 
@@ -79,15 +90,19 @@
         label="Logradouro: *"
         label-for="input-logradouro"
         description=""
+        :class="{ 'form-group--error': $v.form.logradouro.$error }"
       >
 
         <b-form-input
           id="input-logradouro"
           v-model="form.logradouro"
           type="text"
-          
+          v-model.trim="$v.form.logradouro.$model"
+          :class="{ 'form-control is-invalid': $v.form.logradouro.$error }"
           placeholder="Insira o endereço"
         ></b-form-input>
+
+        <div class="error" v-if="!$v.form.logradouro.required" :class="{ 'invalid-feedback d-block': !$v.form.logradouro.required }">Logradouro é Obrigatório</div>
 
       </b-form-group>
       <!-- end: Logradouro -->
@@ -104,12 +119,15 @@
 
           <b-form-input
             id="input-cep"
-            v-model="form.cep"
             type="number"
-            
+            v-model.trim="$v.form.cep.$model"
+            :class="{ 'form-control is-invalid': $v.form.cep.$error }"
             placeholder="Insira o CEP"
-            v-mask="'#####-###'"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.cep.required" :class="{ 'invalid-feedback d-block': !$v.form.cep.required }">CEP é Obrigatório</div>
+
+          <div class="error" v-if="!$v.form.cep.minLength" :class="{ 'invalid-feedback d-block': !$v.form.cep.minLength }">O nome deve ter pelo menos {{$v.form.cep.$params.minLength.min}} caracteres.</div>
 
         </b-form-group>
         <!-- end: CEP -->   
@@ -125,11 +143,13 @@
 
           <b-form-input
             id="input-numero"
-            v-model="form.numero"
             type="text"
-            
+            v-model.trim="$v.form.numero.$model"
+            :class="{ 'form-control is-invalid': $v.form.numero.$error }"
             placeholder="Insira o número"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.numero.required" :class="{ 'invalid-feedback d-block': !$v.form.numero.required }">Número é Obrigatório</div>
 
         </b-form-group>
         <!-- end: Número -->
@@ -149,10 +169,15 @@
             id="input-telefone"
             v-model="form.telefone"
             type="text"
-            
+            v-model.trim="$v.form.telefone.$model"
+            :class="{ 'form-control is-invalid': $v.form.telefone.$error }"
             placeholder="Insira o telefone"
             v-mask="'+55 (##) # ####-####'"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.telefone.required" :class="{ 'invalid-feedback d-block': !$v.form.telefone.required }">Telefone é Obrigatório</div>
+
+          <div class="error" v-if="!$v.form.telefone.minLength" :class="{ 'invalid-feedback d-block': !$v.form.telefone.minLength }">O número deve ter pelo menos {{$v.form.telefone.$params.minLength.min}} caracteres.</div>
 
         </b-form-group>
         <!-- end: Telefone -->
@@ -169,11 +194,15 @@
           <b-form-input
             id="input-email"
             v-model="form.email"
-            type="email"
-            
+            type="text"
+            v-model.trim="$v.form.email.$model"
+            :class="{ 'form-control is-invalid': $v.form.email.$error }"
             placeholder="Insira o e-mail comercial"
-            @blur="validateEmail"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.email.required" :class="{ 'invalid-feedback d-block': !$v.form.email.required }">E-mail é Obrigatório</div>
+
+          <div class="error" v-if="!$v.form.email.email" :class="{ 'invalid-feedback d-block': !$v.form.email.email }">Digite um e-mail válido</div>
 
         </b-form-group>
         <!-- end: e-mail -->
@@ -210,11 +239,13 @@
 
           <b-form-input
             id="input-bairro"
-            v-model="form.bairro"
             type="text"
-            
+            v-model.trim="$v.form.bairro.$model"
+            :class="{ 'form-control is-invalid': $v.form.bairro.$error }"
             placeholder="Insira o bairro"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.bairro.required" :class="{ 'invalid-feedback d-block': !$v.form.bairro.required }">Bairro é Obrigatório</div>
 
         </b-form-group>
         <!-- end: Bairro -->
@@ -234,9 +265,12 @@
             id="input-cidade"
             v-model="form.cidade"
             type="text"
-            
+            v-model.trim="$v.form.cidade.$model"
+            :class="{ 'form-control is-invalid': $v.form.cidade.$error }"
             placeholder="Insira a Cidade"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.cidade.required" :class="{ 'invalid-feedback d-block': !$v.form.cidade.required }">Cidade é Obrigatório</div>
 
         </b-form-group>
         <!-- end: Cidade -->
@@ -254,9 +288,12 @@
             id="input-estado"
             v-model="form.estado"
             type="text"
-            
+            v-model.trim="$v.form.estado.$model"
+            :class="{ 'form-control is-invalid': $v.form.estado.$error }"
             placeholder="Insira o estado"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.estado.required" :class="{ 'invalid-feedback d-block': !$v.form.estado.required }">Estado é Obrigatório</div>
 
         </b-form-group>
         <!-- end: Estado -->
@@ -274,9 +311,12 @@
           id="input-segmento"
           v-model="form.segmento"
           type="text"
-          
+          v-model.trim="$v.form.segmento.$model"
+          :class="{ 'form-control is-invalid': $v.form.segmento.$error }"
           placeholder="Selecione o Segmento"
         ></b-form-input>
+
+        <div class="error" v-if="!$v.form.segmento.required" :class="{ 'invalid-feedback d-block': !$v.form.segmento.required }">Segmento é Obrigatório</div>
 
       </b-form-group>
       <!-- end: Segmento -->
@@ -293,11 +333,14 @@
 
           <b-form-input
             id="input-inscricaoMunicipal"
-            v-model="form.inscricaoMunicipal"
             type="text"
-            
+            v-model.trim="$v.form.inscricaoMunicipal.$model"
+            :class="{ 'form-control is-invalid': $v.form.inscricaoMunicipal.$error }"
             placeholder="Digite a Inscrição Municipal"
           ></b-form-input>
+
+          <div class="error" v-if="!$v.form.inscricaoMunicipal.required" :class="{ 'invalid-feedback d-block': !$v.form.inscricaoMunicipal.required }">Inscrição Municipal é Obrigatório</div>
+
 
         </b-form-group>
         <!-- end: Inscrição Municipal -->
@@ -323,8 +366,14 @@
         <!-- end: Inscrição Estadual -->
       </b-row>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-form-group>
+        <b-button type="submit" variant="primary" class="mr-3 button" :disabled="submitStatus === 'PENDING'">Enviar</b-button>
+        <b-button type="reset" variant="danger">Limpar</b-button>
+      </b-form-group>
+
+      <p class="typo__p" v-if="submitStatus === 'OK'">OK, Tudo certo!</p>
+      <p class="typo__p invalid-feedback" v-if="submitStatus === 'ERROR'">Por favor preencha o formulário corretamente.</p>
+      <p class="typo__p" v-if="submitStatus === 'PENDING'">Enviando...</p>
 
     </b-form>
 
@@ -337,12 +386,14 @@
 
 <script>
 
-  import {mask} from 'vue-the-mask'
+  import { mask } from 'vue-the-mask'
+  import { required, minLength, email } from 'vuelidate/lib/validators'
+  // import axios from "axios"
 
   export default {
     data() {
       return {
-        valid: false,
+        submitStatus: null,
         form: {
           cnpj: '',
           razaoSocial: '',
@@ -363,15 +414,88 @@
         show: true
       }
     },
-    computed: {
-      validCNPJ() {
-        return this.form.cnpj.length >= 18
+    validations: {
+      form : {
+        cnpj: {
+          required,
+          minLength: minLength(18),
+          fetchCNPJ(value) {
+            if(value === "") return true
+
+            if(this.$v.form.cnpj.minLength) {
+
+              console.log(this.form.cnpj)
+              // axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/' + this.form.cnpj)
+              // .then(response=>{
+              //   console.log(response.data.company)
+              // })
+              // .catch(error=>{
+              //   console.log(error)
+              // })
+
+            }
+
+            return false
+          }
+        },
+        razaoSocial: {
+          required
+        },
+        logradouro: {
+          required
+        },
+        cep: {
+          required,
+          minLength: minLength(8)
+        },
+        numero: {
+          required
+        },
+        telefone: {
+          required,
+          minLength: minLength(11)
+        },
+        email: {
+          required,
+          email
+        },
+        bairro: {
+          required
+        },
+        cidade: {
+          required
+        },
+        estado: {
+          required
+        },
+        segmento: {
+          required
+        },
+        inscricaoMunicipal: {
+          required
+        }
       }
     },
+    // computed: {
+    //   validCNPJ() {
+    //     return this.form.cnpj.length >= 18
+    //   }
+    // },
     methods: {
-      onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
+      submit() {
+        // evt.preventDefault()
+
+        this.$v.$touch()
+
+        if (this.$v.$invalid) {
+          this.submitStatus = 'ERROR'
+        } else {
+          // do your submit logic here
+          this.submitStatus = 'PENDING'
+          setTimeout(() => {
+            this.submitStatus = 'OK'
+          }, 500)
+        }
       },
       onReset(evt) {
         evt.preventDefault()
@@ -396,17 +520,6 @@
         this.$nextTick(() => {
           this.show = true
         })
-      },
-      validateEmail() {
-
-        let emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
-
-        if (emailRegex.test(this.form.cnpj)) {
-          this.valid = true;
-        } else {
-          this.valid = false;
-        }
-
       }
     },
     directives: {mask}

@@ -15,4 +15,5 @@ use App\Http\Controllers\Api\CompaniesController;
 |
 */
 
+Route::get('/companies/validCNPJ/{cnpj}', [CompaniesController::class, 'validCNPJ'])->name('marcas.validCNPJ');
 Route::apiResource('companies', CompaniesController::class);

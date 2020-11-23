@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CompaniesController extends Controller
 {
@@ -32,6 +33,15 @@ class CompaniesController extends Controller
 
         return response()->json([
             'companies' => $companies
+        ]);
+    }
+
+    public function validCNPJ($cnpj) {
+
+        $response = Http::get('http://www.receitaws.com.br/v1/cnpj/' . $cnpj);
+
+        return response()->json([
+            'company' => $response->json()
         ]);
     }
 
