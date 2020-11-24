@@ -12,11 +12,6 @@
 
     <b-form @submit.prevent="submit" @reset="onReset" v-if="show"  action="" method="post" class="p-4">
 
-      <!-- valid-feedback = "CNPJ válido!"
-        invalid-feedback = "Digite o CNPJ"
-        :state="validCNPJ" -->
-        <!-- :state="validCNPJ" -->
-
       <!-- begin: CNPJ -->
       <b-form-group
         id="input-group-cnpj"
@@ -119,10 +114,11 @@
 
           <b-form-input
             id="input-cep"
-            type="number"
+            type="text"
             v-model.trim="$v.form.cep.$model"
             :class="{ 'form-control is-invalid': $v.form.cep.$error }"
             placeholder="Insira o CEP"
+            v-mask="'##.###-###'"
           ></b-form-input>
 
           <div class="error" v-if="!$v.form.cep.required" :class="{ 'invalid-feedback d-block': !$v.form.cep.required }">CEP é Obrigatório</div>
@@ -283,17 +279,18 @@
           label-for="input-estado"
           description=""
         >
+        
+          <b-form-select 
+          id="input-estado" 
+          v-model="form.estado.selected">
 
-          <b-form-input
-            id="input-estado"
-            v-model="form.estado"
-            type="text"
-            v-model.trim="$v.form.estado.$model"
-            :class="{ 'form-control is-invalid': $v.form.estado.$error }"
-            placeholder="Insira o estado"
-          ></b-form-input>
+            <template #first>
+              <b-form-select-option :value="null" disabled>-- Selecione um Estado --</b-form-select-option>
+            </template>
 
-          <div class="error" v-if="!$v.form.estado.required" :class="{ 'invalid-feedback d-block': !$v.form.estado.required }">Estado é Obrigatório</div>
+            <b-form-select-option v-for="estado in form.estado.options" v-bind:key="estado.id" v-bind:value="estado.sigla">{{ estado.title }}</b-form-select-option>
+
+          </b-form-select>
 
         </b-form-group>
         <!-- end: Estado -->
@@ -388,7 +385,7 @@
 
   import { mask } from 'vue-the-mask'
   import { required, minLength, email } from 'vuelidate/lib/validators'
-  // import axios from "axios"
+  import axios from "axios"
 
   export default {
     data() {
@@ -406,13 +403,25 @@
           complemento: '',
           bairro: '',
           cidade: '',
-          estado: '',
+          estado: {
+            selected: null,
+            options: []
+          },
           segmento: '',
           inscricaoMunicipal: '',
           inscricaoEstadual: ''
         },
         show: true
       }
+    },
+    mounted: function () {
+      axios
+      .get('http://127.0.0.1:8000/api/getStates')
+      .then(response=>{
+        this.form.estado.options = response.data
+        // console.log(response.data)
+        console.log(this.form.estado.options[0])
+      })
     },
     validations: {
       form : {
@@ -421,21 +430,47 @@
           minLength: minLength(18),
           fetchCNPJ(value) {
             if(value === "") return true
+            let company = ""
 
             if(this.$v.form.cnpj.minLength) {
+              let cnpj = this.form.cnpj
 
-              console.log(this.form.cnpj)
-              // axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/' + this.form.cnpj)
-              // .then(response=>{
-              //   console.log(response.data.company)
-              // })
-              // .catch(error=>{
-              //   console.log(error)
-              // })
+              cnpj = cnpj.replace(/\D/gim, '')
+              
+              axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/' + cnpj)
+              .then(response=>{
+                
+
+                console.log(response.data)
+
+                if (response.data.status == 200) {
+
+                  company = response.data.company
+                  
+                  this.form.razaoSocial = company.nome
+                  this.form.nomeFantasia = company.fantasia
+                  this.form.cep = company.cep
+                  this.form.logradouro = company.logradouro
+                  this.form.numero = company.numero
+                  this.form.telefone = company.telefone
+                  this.form.email = company.email
+                  this.form.complemento = company.complemento
+                  this.form.bairro = company.bairro
+                  this.form.cidade = company.municipio
+                  this.form.estado.selected = company.uf
+                  this.form.segmento = company.atividade_principal[0].text
+
+                }
+                
+
+              })
+              .catch(error=>{
+                console.log(error)
+              })
 
             }
-
-            return false
+            
+            return true
           }
         },
         razaoSocial: {
@@ -476,15 +511,8 @@
         }
       }
     },
-    // computed: {
-    //   validCNPJ() {
-    //     return this.form.cnpj.length >= 18
-    //   }
-    // },
     methods: {
       submit() {
-        // evt.preventDefault()
-
         this.$v.$touch()
 
         if (this.$v.$invalid) {
@@ -494,6 +522,10 @@
           this.submitStatus = 'PENDING'
           setTimeout(() => {
             this.submitStatus = 'OK'
+            axios.post('http://127.0.0.1:8000/api/companies', this.form)
+            .then(response=>{
+              console.log(response)
+            })
           }, 500)
         }
       },

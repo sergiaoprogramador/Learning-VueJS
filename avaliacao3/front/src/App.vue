@@ -8,14 +8,17 @@
         <b-row>
           <b-col cols="6">
             <Banner />
+
+            <div class="pl-5 pt-2">
+              <h2>Hello, Guys!</h2>
+              <companies></companies>
+            </div>
+            
           </b-col>
           <b-col cols="6">
             <Form />
           </b-col>
         </b-row>
-
-        <h2>Hello, Guys!</h2>
-        <companies></companies>
 
       </b-container>
 

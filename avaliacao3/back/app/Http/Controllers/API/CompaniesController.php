@@ -41,7 +41,8 @@ class CompaniesController extends Controller
         $response = Http::get('http://www.receitaws.com.br/v1/cnpj/' . $cnpj);
 
         return response()->json([
-            'company' => $response->json()
+            'company' => $response->json(),
+            'status' => ($response['status'] == "OK") ? 200 : 400
         ]);
     }
 
@@ -53,7 +54,12 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request = $request->all();
+
+        return response()->json([
+            'request' => $request,
+            'status' => 200
+        ]);
     }
 
     /**

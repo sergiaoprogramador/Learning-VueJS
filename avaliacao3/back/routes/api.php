@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CompaniesController;
+use App\Models\Estado;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use App\Http\Controllers\Api\CompaniesController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/getStates', function () {
+  return Estado::all();
+});
 
 Route::get('/companies/validCNPJ/{cnpj}', [CompaniesController::class, 'validCNPJ'])->name('marcas.validCNPJ');
 Route::apiResource('companies', CompaniesController::class);
