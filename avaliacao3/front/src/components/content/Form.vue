@@ -374,8 +374,16 @@
 
     </b-form>
 
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
+    <b-card class="mt-5 bg-dark " header="Dados de requisição">
+
+      <div v-if="responseServer != null" class="alert alert-success" role="alert">
+        Compania cadastrada com sucesso!
+      </div>
+
+      {{ (responseServer != null) ? "Resposta da requisição" : "Requisição a ser enviada" }}
+
+      <pre class="m-0 text-white">{{ (responseServer != null) ? responseServer : form }}</pre>
+      
     </b-card>
 
   </div>
@@ -411,6 +419,7 @@
           inscricaoMunicipal: '',
           inscricaoEstadual: ''
         },
+        responseServer: null,
         show: true
       }
     },
@@ -420,7 +429,7 @@
       .then(response=>{
         this.form.estado.options = response.data
         // console.log(response.data)
-        console.log(this.form.estado.options[0])
+        // console.log(this.form.estado.options[0])
       })
     },
     validations: {
@@ -439,9 +448,6 @@
               
               axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/' + cnpj)
               .then(response=>{
-                
-
-                console.log(response.data)
 
                 if (response.data.status == 200) {
 
@@ -515,6 +521,8 @@
       submit() {
         this.$v.$touch()
 
+        // console.log(this.form)
+
         if (this.$v.$invalid) {
           this.submitStatus = 'ERROR'
         } else {
@@ -524,7 +532,12 @@
             this.submitStatus = 'OK'
             axios.post('http://127.0.0.1:8000/api/companies', this.form)
             .then(response=>{
-              console.log(response)
+              
+              this.responseServer = response.data.response
+              // console.log(responseServer)
+            })
+            .catch(error=>{
+              console.log(error)
             })
           }, 500)
         }

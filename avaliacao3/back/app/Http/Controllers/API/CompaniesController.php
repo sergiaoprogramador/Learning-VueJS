@@ -16,20 +16,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        $companies = [
-            (object)[
-                "id" => 1,
-                "name" => "UNEMAT"
-            ],
-            (object)[
-                "id" => 2,
-                "name" => "EDUXE"
-            ],
-            (object)[
-                "id" => 3,
-                "name" => "DEVFORBUSINESS"
-            ],
-        ];
+        $companies = Company::all();
 
         return response()->json([
             'companies' => $companies
@@ -54,10 +41,30 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        $request = $request->all();
+        // $data = $request->all();
+
+        $company = new Company;
+        
+        $company->cnpj = $request->cnpj;
+        $company->razaoSocial = $request->razaoSocial;
+        $company->nomeFantasia = $request->nomeFantasia;
+        $company->cep = $request->cep;
+        $company->logradouro = $request->logradouro;
+        $company->numero = intval($request->numero);
+        $company->telefone = $request->telefone;
+        $company->email = $request->email;
+        $company->complemento = $request->email;
+        $company->bairro = $request->bairro;
+        $company->cidade = $request->cidade;
+        $company->estado = $request->estado['selected'];
+        $company->segmento = $request->segmento;
+        $company->inscricaoMunicipal = intval($request->inscricaoMunicipal);
+        $company->inscricaoEstadual = intval($request->inscricaoEstadual);
+
+        $company->save();
 
         return response()->json([
-            'request' => $request,
+            'response' => $company,
             'status' => 200
         ]);
     }

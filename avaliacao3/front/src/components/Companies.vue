@@ -7,13 +7,17 @@
       <thead>
         <tr>
           <th>ID#</th>
-          <th>Company#</th>
+          <th>Compania</th>
+          <th>Razão Social</th>
+          <th>Nome Fantasia</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(company, index) in companies" :key="index">
           <td>{{ company.id }}</td>
-          <td>{{ company.name }}</td>
+          <td>{{ company.cnpj }}</td>
+          <td>{{ company.razaoSocial }}</td>
+          <td>{{ company.nomeFantasia }}</td>
         </tr>
       </tbody>
     </table>
@@ -32,10 +36,10 @@ export default {
   },
   methods: {
     getCompanies(){
-      axios.get('http://127.0.0.1:8000/api/companies/validCNPJ/37463944000105')
+      axios.get('http://127.0.0.1:8000/api/companies')
       .then(response=>{
-        console.log(response.data.company)
-        // this.companies = response.data.companies
+        console.log(response)
+        this.companies = response.data.companies
       })
       .catch(error=>{
         console.log(error)
