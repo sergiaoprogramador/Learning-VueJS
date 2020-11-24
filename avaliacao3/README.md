@@ -90,12 +90,22 @@ preenchido manualmente.
 
 + O Laravel possui um conjunto de requisitos para funcionar perfeitamente em ambientes específicos. Esta seção específica - [requisítos do laravel](https://laravel.com/docs/7.x#server-requirements) - Laravel Documentação.
 
-+ Para compilar o projeto é necessário ter instalado o [Composer](https://getcomposer.org/) e [Node](https://nodejs.org/) em sua máquina.
++ Para compilar o projeto é necessário ter instalado o [Composer](https://getcomposer.org/) , [Node](https://nodejs.org/) e [Yarn](https://yarnpkg.com/) em sua máquina.
 
 Assumindo que sua máquina possua os requisitos listados - Vamos processar a instalação e compilar o projeto para ser executado.
 
-1. Abra no cmd ou aplicativo de terminal e navegue até esta pasta inicial do projeto
-2. Execute os comandos a seguir:
++ Caso ainda não o tenha feito, clone este repositório com o Git 
+```
+git clone https://github.com/sergiaoprogramador/Learning-VueJS.git
+```
+
+1. Abra no cmd ou aplicativo de terminal e navegue até esta pasta inicial do projeto em: Learning-VueJS\avaliacao3
+
+2. Execute os comandos a seguir para as configurações de backend:
+
+#### Configurando o Backend:
+
++ Abra a pasta back 
 
 ```bash
 composer install
@@ -104,42 +114,51 @@ composer install
 ```bash
 cp .env.example .env
 ```
++ Configure as variaveis de Banco de dados no arquivo .env para configuração das tabelas (configure um Banco para fins de teste)
 
 ```bash
 php artisan key:generate
 ```
 
 ```bash
-npm install
-```
-
-```bash
-npm install vue-template-compiler --save-dev --production=false
-```
-
-```bash
-npm run dev
-```
-
-3. Caso queira iniciar um servidor execute os comandos a seguir:
-
-
-
----
-
-4. Adicionando Migrations, seeders:
-- Configure no arquivo .env , as configurações do projeto e banco de dados. Execute os seguintes comandos em seguida:
-
-```bash
 php artisan migrate:fresh --seed
 ```
 
+```bash
+php artisan serve
+```
+
++ Deixe o servidor rodando
+
+
+2. Execute os comandos a seguir para as configurações de frontend:
+
+#### Configurando o Frontend:
+
++ Abra um novo terminal de linha de comando e acesse a pasta front
+
+```
+yarn install
+```
+
+##### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+##### Compiles and minifies for production
+```
+yarn build
+```
+
+##### Lints and fixes files
+```
+yarn lint
+```
+
 ### Componentes
-Para os componentes utilizei o BootstrapVue
-
-Para adicionar novos componentes VUE basta acessar o site do bootstrap, selecionar o item que quer e copiar seu código
-
-Link : [Documentação do BoostrapVue](https://bootstrap-vue.org/)
+Para os componentes utilizei o [BootstrapVue](https://bootstrap-vue.org/docs)
+Para as validações utilizei o [VueValidate](https://vuelidate.js.org/)
 
 ### Copyright
 

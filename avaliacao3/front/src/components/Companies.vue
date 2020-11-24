@@ -1,7 +1,8 @@
 <template>
   <div>
     <h4>Welcome to my Sergio's Test</h4>
-    <button @click="getCompanies">Get Companies</button>
+    <p>Click on the button below, and you'll see the registered companies</p>
+    <b-button variant="dark" @click="getCompanies">Get Companies</b-button>
 
     <table>
       <thead>
